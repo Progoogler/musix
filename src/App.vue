@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <header>
-      <span>Vue.js PWA</span>
+      <span>Musix</span>
     </header>
     <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
+      <img src="./assets/logo.jpg" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
   </div>
