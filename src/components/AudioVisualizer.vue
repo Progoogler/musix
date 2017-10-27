@@ -5,24 +5,15 @@
 
     <form class="controls">
     <div>
-        <label for="voice">Voice setting</label>
-        <select id="voice" name="voice">
-        <option value="distortion">Distortion</option>
-        <option value="convolver">Reverb</option>
-        <option value="biquad">Bass Boost</option>
-        <option value="off" selected>Off</option>
-        </select>
+      <label for="visual">Visualizer setting</label>
+      <select id="visual" name="visual">
+      <option value="sinewave">Sinewave</option>
+      <option value="frequencybars" selected>Frequency bars</option>
+      <option value="off">Off</option>
+      </select>
     </div>
     <div>
-        <label for="visual">Visualizer setting</label>
-        <select id="visual" name="visual">
-        <option value="sinewave">Sinewave</option>
-        <option value="frequencybars" selected>Frequency bars</option>
-        <option value="off">Off</option>
-        </select>
-    </div>
-    <div>
-        <a class="mute">Mute</a>
+      <a class="mute">Mute</a>
     </div>
     </form>
   </div>
