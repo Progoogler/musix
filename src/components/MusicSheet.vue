@@ -1,5 +1,6 @@
 <template>
   <div class="sheet">
+    <AudioVisualizer/>
     <p class="name">{{ sheetInfo }}</p>
     <img src="../assets/piano-sheets/chopin-nocturne-music-sheet.jpg" alt="The music sheet for Chopin's Nocture op.9 No.2">
     <!-- <h2>Essential Links</h2>
@@ -21,7 +22,10 @@
 </template>
 
 <script>
+import AudioVisualizer from './AudioVisualizer';
+
 export default {
+  components: { AudioVisualizer },
   name: 'MusicSheet',
   data() {
     return {
