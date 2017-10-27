@@ -129,7 +129,10 @@ const app = () => {
   </select>
 </div> */
 
+  var song = {};
+
   function visualize() {
+    const start = Date.now();
     const WIDTH = canvas.width;
     const HEIGHT = canvas.height;
 
@@ -198,6 +201,8 @@ const app = () => {
         const barWidth = (WIDTH / bufferLengthAlt) * 2.5;
         let barHeight;
         let x = 0;
+        let freq = 0;
+        let loci = null;
 
         for (let i = 0; i < bufferLengthAlt; i += 1) {
           barHeight = dataArrayAlt[i];
@@ -206,11 +211,20 @@ const app = () => {
           canvasCtx.fillRect(x, (HEIGHT - barHeight) / 2, barWidth, barHeight / 2);
 
           x += barWidth + 1;
+
+          // Add every frequency into a sum and push this "beat" into song array
+          if (dataArrayAlt[i] > freq) {
+            freq = dataArrayAlt[i];
+            loci = i;
+          }
         }
+        freq += dataArrayAlt[Math.floor(loci / 2)];
+        song[freq] = (Date.now() - start) / 1000;
       };
 
       drawAlt();
     } else if (visualSetting === 'off') {
+      console.log('song:', song)
       canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
       canvasCtx.fillStyle = 'red';
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -276,15 +290,16 @@ const app = () => {
     if (mute.id === 'active') {
       // gainNode.gain.value = 1;
       mute.id = 'muted';
-      mute.innerHTML = 'Unmute';
+      mute.innerHTML = 'Play';
       // Suspending the audio context doesn't lower the CPU overhead from the streaming..
       // How can we "suspend" the streaming without destroying the context to offload the CPU usage when not in use?
       // -- Setting Visualize Settings to "OFF" drops the CPU percentage down by 15%.
+      // -- Essentially removing canvas will make the processing a lot smoother
       audioCtx.suspend();
     } else {
       // gainNode.gain.value = 0;
       mute.id = 'active';
-      mute.innerHTML = 'Mute';
+      mute.innerHTML = 'Pause';
       audioCtx.resume();
     }
   }
