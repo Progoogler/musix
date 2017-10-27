@@ -1,5 +1,6 @@
+/* eslint-disable */
 <template>
-  <div id="audio-wrapper">
+  <div class="audio-wrapper">
     <canvas class="visualizer" width="640" height="100"></canvas> 
 
     <form class="controls">
@@ -28,14 +29,19 @@
 </template>
 
 <script>
+import app from '../scripts/audioVisualizer';
+
 export default {
   name: 'AudioVisualizer',
+  mounted() {
+    app();
+  },
 };
 </script>
 
 <style scoped>
 
-#audio-wrapper {
+.audio-wrapper {
 	height: 100%;
 	max-width: 800px;
 	margin: 0 auto;
