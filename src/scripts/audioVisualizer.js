@@ -5,6 +5,16 @@ const app = () => {
   // fork getUserMedia for multiple browser versions, for those
   // that need prefixes
 
+  // Copied from MDN: https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getUserMedia
+  // This is a legacy method. 
+  // Please use the newer navigator.mediaDevices.getUserMedia() instead. 
+  // While technically not deprecated, this old callback version is marked as such, 
+  // since the specification strongly encourages using the newer promise returning version.
+
+  // TODO: Replace the deprecated method of asking for media permission
+  // Refer to: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+  // To update the media reference below.
+
   navigator.getUserMedia = (navigator.getUserMedia ||
                             navigator.webkitGetUserMedia ||
                             navigator.mozGetUserMedia ||
@@ -25,10 +35,10 @@ const app = () => {
   analyser.maxDecibels = -10;
   analyser.smoothingTimeConstant = 0.85;
 
-  const distortion = audioCtx.createWaveShaper();
-  const gainNode = audioCtx.createGain();
-  const biquadFilter = audioCtx.createBiquadFilter();
-  const convolver = audioCtx.createConvolver();
+  // const distortion = audioCtx.createWaveShaper();
+  // const gainNode = audioCtx.createGain();
+  // const biquadFilter = audioCtx.createBiquadFilter();
+  // const convolver = audioCtx.createConvolver();
 
   // distortion curve for the waveshaper, thanks to Kevin Ennis
   // http://stackoverflow.com/questions/22312841/waveshaper-node-in-webaudio-how-to-emulate-distortion
@@ -52,28 +62,29 @@ const app = () => {
   let soundSource;
   let concertHallBuffer;
 
-  const ajaxRequest = new XMLHttpRequest();
+  // const ajaxRequest = new XMLHttpRequest();
 
-  ajaxRequest.open('GET', 'https://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
+  // ajaxRequest.open('GET', 'https://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
 
-  ajaxRequest.responseType = 'arraybuffer';
+  // ajaxRequest.responseType = 'arraybuffer';
 
 
-  ajaxRequest.onload = () => {
-    const audioData = ajaxRequest.response;
+  // ajaxRequest.onload = () => {
+  //   const audioData = ajaxRequest.response;
 
-    audioCtx.decodeAudioData(audioData, (buffer) => {
-      concertHallBuffer = buffer;
-      soundSource = audioCtx.createBufferSource();
-      soundSource.buffer = concertHallBuffer;
-    }, (e) => { console.log(`Error with decoding audio data ${e.err}`); });
+  //   audioCtx.decodeAudioData(audioData, (buffer) => {
+  //     concertHallBuffer = buffer;
+  //     soundSource = audioCtx.createBufferSource();
+  //     soundSource.buffer = concertHallBuffer;    
+  //     soundSource.connect(audioCtx.destination);
+  //     // soundSource.loop = true;
+  //     soundSource.start();
+  //   }, (e) => { console.log(`Error with decoding audio data ${e.err}`); });
 
-    // soundSource.connect(audioCtx.destination);
-    // soundSource.loop = true;
-    // soundSource.start();
-  };
 
-  ajaxRequest.send();
+  // };
+
+  // ajaxRequest.send();
 
   // set up canvas context for visualizer
 
@@ -221,11 +232,12 @@ const app = () => {
         (stream) => {
           source = audioCtx.createMediaStreamSource(stream);
           source.connect(analyser);
-          analyser.connect(distortion);
-          distortion.connect(biquadFilter);
-          biquadFilter.connect(convolver);
-          convolver.connect(gainNode);
-          gainNode.connect(audioCtx.destination);
+          source.connect(audioCtx.destination);
+          // analyser.connect(distortion);
+          // distortion.connect(biquadFilter);
+          // biquadFilter.connect(convolver);
+          // convolver.connect(gainNode);
+          // gainNode.connect(audioCtx.destination);
 
           visualize();
           // voiceChange();
