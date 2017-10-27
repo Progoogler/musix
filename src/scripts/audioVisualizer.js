@@ -18,11 +18,6 @@ const app = () => {
   let source;
   // let stream;
 
-  // grab the mute button to use below
-
-  const mute = document.querySelector('.mute');
-  console.log(`mute: ${mute}`)
-
   // set up the different audio nodes we will use for the app
 
   const analyser = audioCtx.createAnalyser();
@@ -83,7 +78,6 @@ const app = () => {
   // set up canvas context for visualizer
 
   const canvas = document.querySelector('.visualizer');
-  console.log(`canvass: ${canvas}`);
   const canvasCtx = canvas.getContext('2d');
 
   const intendedWidth = document.querySelector('.audio-wrapper').clientWidth;
@@ -94,26 +88,35 @@ const app = () => {
 
   let drawVisual;
 
-  function voiceChange() {
-    distortion.oversample = '4x';
-    biquadFilter.gain.value = 0;
-    convolver.buffer = undefined;
+  // function voiceChange() {
+  //   distortion.oversample = '4x';
+  //   biquadFilter.gain.value = 0;
+  //   convolver.buffer = undefined;
 
-    const voiceSetting = voiceSelect.value;
-    console.log(voiceSetting);
+  //   const voiceSetting = voiceSelect.value;
+  //   console.log(voiceSetting);
 
-    if (voiceSetting === 'distortion') {
-      distortion.curve = makeDistortionCurve(400);
-    } else if (voiceSetting === 'convolver') {
-      convolver.buffer = concertHallBuffer;
-    } else if (voiceSetting === 'biquad') {
-      biquadFilter.type = 'lowshelf';
-      biquadFilter.frequency.value = 1000;
-      biquadFilter.gain.value = 25;
-    } else if (voiceSetting === 'off') {
-      console.log('Voice settings turned off');
-    }
-  }
+  //   if (voiceSetting === 'distortion') {
+  //     distortion.curve = makeDistortionCurve(400);
+  //   } else if (voiceSetting === 'convolver') {
+  //     convolver.buffer = concertHallBuffer;
+  //   } else if (voiceSetting === 'biquad') {
+  //     biquadFilter.type = 'lowshelf';
+  //     biquadFilter.frequency.value = 1000;
+  //     biquadFilter.gain.value = 25;
+  //   } else if (voiceSetting === 'off') {
+  //     console.log('Voice settings turned off');
+  //   }
+  // }
+/* <div>
+  <label for="voice">Voice setting</label>
+  <select id="voice" name="voice">
+  <option value="distortion">Distortion</option>
+  <option value="convolver">Reverb</option>
+  <option value="biquad">Bass Boost</option>
+  <option value="off" selected>Off</option>
+  </select>
+</div> */
 
   function visualize() {
     const WIDTH = canvas.width;
@@ -205,36 +208,42 @@ const app = () => {
 
   // main block for doing the audio recording
 
-  if (navigator.getUserMedia) {
-    console.log('getUserMedia supported.');
-    navigator.getUserMedia(
-      // constraints - only audio needed for this app
-      {
-        audio: true,
-      },
+  const initializeRecording = () => {
+    if (navigator.getUserMedia) {
+      console.log('getUserMedia supported.');
+      navigator.getUserMedia(
+        // constraints - only audio needed for this app
+        {
+          audio: true,
+        },
 
-      // Success callback
-      (stream) => {
-        source = audioCtx.createMediaStreamSource(stream);
-        source.connect(analyser);
-        analyser.connect(distortion);
-        distortion.connect(biquadFilter);
-        biquadFilter.connect(convolver);
-        convolver.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
+        // Success callback
+        (stream) => {
+          source = audioCtx.createMediaStreamSource(stream);
+          source.connect(analyser);
+          analyser.connect(distortion);
+          distortion.connect(biquadFilter);
+          biquadFilter.connect(convolver);
+          convolver.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
 
-        visualize();
-        voiceChange();
-      },
+          visualize();
+          // voiceChange();
+        },
 
-      // Error callback
-      (err) => {
-        console.log(`The following gUM error occured: ${err}`);
-      },
-    );
-  } else {
-    console.log('getUserMedia not supported on your browser!');
+        // Error callback
+        (err) => {
+          console.log(`The following gUM error occured: ${err}`);
+        },
+      );
+    } else {
+      console.log('getUserMedia not supported on your browser!');
+    }
   }
+
+  // TODO: This function call will eventually be controlled by a button click
+
+  initializeRecording();
 
   // event listeners to change visualize and voice settings
 
@@ -243,23 +252,33 @@ const app = () => {
     visualize();
   };
 
-  voiceSelect.onchange = () => {
-    voiceChange();
-  };
+  // voiceSelect.onchange = () => {
+  //   voiceChange();
+  // };
+
+  // grab the mute button to use below
+
+  const mute = document.querySelector('.mute');
 
   function voiceMute() {
-    if (mute.id === '') {
-      gainNode.gain.value = 0;
-      mute.id = 'activated';
+    if (mute.id === 'active') {
+      // gainNode.gain.value = 1;
+      mute.id = 'muted';
       mute.innerHTML = 'Unmute';
+      // Suspending the audio context doesn't lower the CPU overhead from the streaming..
+      // How can we "suspend" the streaming without destroying the context to offload the CPU usage when not in use?
+      // -- Setting Visualize Settings to "OFF" drops the CPU percentage down by 15%.
+      audioCtx.suspend();
     } else {
-      gainNode.gain.value = 1;
-      mute.id = '';
+      // gainNode.gain.value = 0;
+      mute.id = 'active';
       mute.innerHTML = 'Mute';
+      audioCtx.resume();
     }
   }
 
   mute.onclick = voiceMute;
+  mute.id = 'active';
 }
 
 export default app;
