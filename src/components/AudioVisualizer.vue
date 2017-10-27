@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div class="audio-wrapper">
     <canvas class="visualizer" width="640" height="100"></canvas> 
@@ -13,7 +12,7 @@
       </select>
     </div>
     <div>
-      <a class="mute">Mute</a>
+      <a class="mute">Pause</a>
     </div>
     </form>
   </div>
