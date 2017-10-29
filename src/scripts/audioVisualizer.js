@@ -449,7 +449,7 @@ const app = () => {
     // Figure out the height of either the music sheet or the top and bottom surrounding elements and subtract them from clientHeight.
     const clientHeight = window.document.body.clientHeight;
     // Otherwise if we know the height, assign it to sheetHeight:
-    const stanzaHeight = sample['height'] / sample['stanzas'];
+    const stanzaHeight = sample['height'] / (sample['stanzas'] + 1); // Increase by one to negate padding added by top and bottom footer
 
     const visualSetting = visualSelect.value;
 
@@ -504,7 +504,7 @@ const app = () => {
                   window.scrollTo(0, window.pageYOffset + 1);
                 }, 10 + (i * 5));
               }
-            }, 3000);
+            }, 1500);
           }
         }
       }
