@@ -302,15 +302,14 @@ const app = () => {
   
 
   // // Recording Song:
-  // const song = [[]];
-  // let currentStanza = 0; // 1st stanza
-  // let timeTrack = 0;
-
   // function visualize() {
-
+    
   //   const WIDTH = canvas.width;
   //   const HEIGHT = canvas.height;
 
+  //   const song = [[]];
+  //   let currentStanza = 0; // 1st stanza
+  //   let timeTrack = 0;
     
   //   const low = Math.floor(ranges[sample['instrument']]['low'] / (44100 / 16384));
   //   const high = Math.ceil(ranges[sample['instrument']]['high'] / (44100 / 16384));
@@ -444,32 +443,24 @@ const app = () => {
   //   }
   // }
 
-  // Use for playback recognition:
 
+  // Use for playback recognition:
   function visualize() {
     // Figure out the height of either the music sheet or the top and bottom surrounding elements and subtract them from clientHeight.
     const clientHeight = window.document.body.clientHeight;
     // Otherwise if we know the height, assign it to sheetHeight:
-    const sheetHeight = sample['height'] ? sample['height'] : null;
-    const stanzaHeight = sheetHeight / sample['stanzas'];
-
-    const low = Math.floor(ranges[sample['instrument']]['low'] / (44100 / 16384));
-    const high = Math.ceil(ranges[sample['instrument']]['high'] / (44100 / 16384));
+    const stanzaHeight = sample['height'] / sample['stanzas'];
 
     const visualSetting = visualSelect.value;
-    
-    analyser.fftSize = 32768;
-    const bufferLengthAlt = analyser.frequencyBinCount; // === 16384 --Nyquist formula
-    const dataArrayAlt = new Uint8Array(bufferLengthAlt);
 
     if (visualSetting === 'frequencybars') {
+      analyser.fftSize = 32768;
+      const bufferLengthAlt = analyser.frequencyBinCount; // === 16384 --Nyquist formula
+      const dataArrayAlt = new Uint8Array(bufferLengthAlt);
+
       let currentStanza = 0;
       let currentFreq = 0;
       let sampleLength = sample['spectrum'][currentStanza].length;
-
-      let maxScroll = sample['height'] / sample['stanzas'];
-      let scrollInterval = null;
-      let scrolled = 0; 
 
       const drawAlt = (newtime) => {
         if (stop) return;
@@ -487,11 +478,11 @@ const app = () => {
 
           let freq = sample['spectrum'][currentStanza][currentFreq];
 
-          if (dataArrayAlt[freq] > 50) {
+          if (dataArrayAlt[freq] > 100) {
             currentFreq += 1;
           } else {
             for (let i = 0; i < sampleLength; i++) {
-              if (dataArrayAlt[sample['spectrum'][currentStanza][i]] > 50) {
+              if (dataArrayAlt[sample['spectrum'][currentStanza][i]] > 100) {
                 currentFreq += 1;
                 break;
               }
@@ -505,9 +496,10 @@ const app = () => {
               stop = true;
               return;
             }
-            // Start scrolling past last stanza
+            // Start scrolling past previous stanza
+            // -- delay this process - late is better than early!
             setTimeout(() => {
-              for (let i = 0; i < sample['height'] / sample['stanzas']; i++) {
+              for (let i = 0; i < stanzaHeight; i++) {
                 setTimeout(() => {
                   window.scrollTo(0, window.pageYOffset + 1);
                 }, 10 + (i * 5));
