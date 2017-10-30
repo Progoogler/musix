@@ -215,17 +215,19 @@ const app = () => {
     const musixSetting = musixSelect.value;
     if (musixSetting === 'record') {
       record();
-      ppToggle.id = 'active';
-      ppToggle.innerHTML = 'Pause';
     } else if (musixSetting === 'recognition') {
       recognition();
-      ppToggle.id = 'active';
-      ppToggle.innerHTML = 'Pause';
-    } else if (musixSetting === 'off') { console.log('song', song);
+    } else if (musixSetting === 'off') { 
+      if (song.length) console.log('FFT data:', song);
       ppToggle.id = 'inactive';
       ppToggle.innerHTML = 'Play';
       stop = true;
       audioCtx.suspend();
+      return;
+    }
+    if (ppToggle.id === 'inactive') {
+      ppToggle.id = 'active';
+      ppToggle.innerHTML = 'Pause';
     }
   }
   
@@ -277,7 +279,6 @@ const app = () => {
           }
         }
         // Include at this point in time on the current stanza the highest frequency
-        console.log('strength', dataArrayAlt[loci])
         if (loci) song[currentStanza].push(loci);
       }
     };
@@ -302,7 +303,9 @@ const app = () => {
     analyser.fftSize = 32768;
     const dataArrayAlt = new Uint8Array(analyser.frequencyBinCount); // === 16384 --Nyquist formula
 
-    let currentStanza = 0;
+    // TODO: Check whether the first stanza is appearing onscreen
+    // - if not, find out what the "top" stanza is and check from there
+    let currentStanza = 0; 
     let currentFreq = 0;
     let sampleLength = sample['spectrum'][currentStanza].length;
 
@@ -335,11 +338,11 @@ const app = () => {
         if (currentFreq >= sampleLength) {
           currentStanza += 1;
           currentFreq = 0;
-          sampleLength = sample['spectrum'][currentStanza].length;
           if (currentStanza === sample['spectrum'].length) {
             stop = true;
             return;
           }
+          sampleLength = sample['spectrum'][currentStanza].length;
           // Start scrolling past previous stanza
           // -- delay this process - late is better than early!
           setTimeout(() => {
@@ -404,6 +407,7 @@ const app = () => {
     if (ppToggle.id === 'active') {
       ppToggle.id = 'inactive';
       ppToggle.innerHTML = 'Play';
+      if (musixSetting === 'record') stop = true;
       // Suspending the audio context doesn't lower the CPU overhead from the streaming..
       // How can we "suspend" the streaming without destroying the context to offload the CPU usage when not in use?
       // -- Setting Visualize Settings to "OFF" drops the CPU percentage down by 15%.
@@ -413,6 +417,10 @@ const app = () => {
       ppToggle.id = 'active';
       ppToggle.innerHTML = 'Pause';
       audioCtx.resume();
+      if (musixSetting === 'record') {
+        stop = false;
+        startProcess(10);
+      }
     }
   }
 
