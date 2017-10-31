@@ -1,0 +1,27 @@
+{
+  "name": "musix",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/progoogler/musix.git"
+  },
+  "author": "Robert <Rlin415@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/progoogler/musix/issues"
+  },
+  "homepage": "https://github.com/progoogler/musix#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.5"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.0"
+  }
+}
