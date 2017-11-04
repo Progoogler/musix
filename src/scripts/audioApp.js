@@ -324,42 +324,15 @@ const app = () => {
         analyser.getByteFrequencyData(dataArrayAlt);
         
 
-        let bin = Math.floor(notes[spectrum[currentStanza][currentFreq]] / (44100 / 32768));
-
-        if (dataArrayAlt[bin] >= 100 || dataArrayAlt[bin - 1] >= 100 || dataArrayAlt[bin + 1] >= 100) { console.log('score!', currentFreq)
+        let bin = Math.floor(notes[Object.keys(spectrum[currentStanza][currentFreq])[0]] / (44100 / 32768));
+        
+        if (dataArrayAlt[bin] >= 100 || dataArrayAlt[bin + 1] >= 100) { console.log('score!', currentFreq)
           currentFreq += 1;
-        } else {
-          count += 1;
-          if (count >= 10) {
-            let mem = {};
-            for (let i = 0; i < spectrum[currentStanza].length; i += 1) {
-              let currentBin = Math.floor(notes[spectrum[currentStanza][i]] / (44100 / 32768));
-              if (dataArrayAlt[currentBin] >= 100) {
-                mem[i] = {
-                  bin: currentBin,
-                  amp: dataArrayAlt[currentBin],
-                };
-              }
-            }
-            if (Object.keys(mem).length) {
-              if (mem[currentFreq]) {
-                currentFreq += 1;
-              } else {
-                let highestAmp = 0;
-                let winner = null;
-                for (let idx in mem) {
-                  if (mem[idx][amp] > highestAmp) {
-                    highestAmp = mem[idx][amp];
-                    winner = idx;
-                  }
-                }
-                currentFreq = winner + 1;
-                console.log('oh oh!', currentFreq)
-              }
-            }
-            count = 0;
+        } else if (dataArrayAlt[bin]) {
+          if (spectrum[currentStanza][currentFreq][Object.keys(spectrum[currentStanza][currentFreq])] === 'light') {
+            currentFreq += 1;
           }
-        } 
+        }
         if (currentFreq >= sampleLength) {
           currentStanza += 1;
           currentFreq = 0;
@@ -583,7 +556,7 @@ const app = () => {
           source = audioCtx.createMediaStreamSource(stream);
           source.connect(analyser);
           // source.connect(audioCtx.destination);
-          startProcess(2);
+          startProcess(10);
         },
 
         // Error callback
@@ -602,7 +575,7 @@ const app = () => {
   // event listeners to change visualize
   musixSelect.onchange = () => {
     window.cancelAnimationFrame(recallComputeFFT);
-    startProcess(2);
+    startProcess(10);
   };
 
   // grab the mute button to use below
