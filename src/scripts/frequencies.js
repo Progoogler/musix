@@ -1,11 +1,11 @@
 /* eslint-disable */
 
 const spectrum = [
-  ['Bb4', 'G5', 'G5', 'F5', 'G5', 'F5', 'Eb5', 'Bb4', 'G5', 'C5', 'C6', 'G5', 'B5', 'A5', 'G5',],
-  ['F5', 'G5', 'D5', 'Eb5', 'C5', 'Bb4', 'D6', 'C6', 'C5', 'D5', 'Eb5', 'Bb4',],
-  ['G5', 'F5', 'G5', 'F5', 'Eb5', 'F5', 'G5', 'Eb5', 'F5', 'Eb5', 'D5', 'Eb5', 'F5', 'G5', 'G#4', 'C5', 'C#4'/* Make equivalent Db4 */, 'C5', 'F5', 'F5'/* Make equivalent E#5 */, 'G#5'/* Make equivalent Ab5 */, 'G5', 'C#6', 'C6', 'G5', 'B5', 'A5', 'G5',],
-  ['F5', 'G5', 'G5', 'D5', 'Eb5', 'C5', 'Bb4', 'D6', 'C6,', 'B5', 'A5', 'G5', 'A5', 'C5', 'D5', 'Eb5', 'Eb5', 'D5', 'Eb5',],
-  ['F5', 'G5', 'F5', 'F5', 'C5', 'Eb5', 'Eb5', 'Eb5', 'Eb5', 'D5', 'Eb5', 'F5', 'Eb5', 'Eb5', 'Bb4',],
+  [{'Bb4':'light'}, {'G5':'normal'}, {'G5':'normal'}, {'F5':'normal'}, {'G5':'normal'}, {'F5':'normal'}, {'Eb5':'normal'}, {'Bb4':'light'}, {'G5':'normal'}, {'C5':'normal'}, {'C6':'normal'}, {'G5':'normal'}, {'B5':'normal'}, {'A5':'normal'}, {'G5':'light'},],
+  [{'F5':'normal'}, {'G5':'normal'}, {'D5':'light'}, {'Eb5':'normal'}, {'C5':'normal'}, {'Bb4':'normal'}, {'D6':'normal'}, {'C6':'normal'}, {'C5':'normal'}, {'D5':'normal'}, {'Eb5':'normal'}, {'C5': 'light'}, {'C5': 'light'}, {'Bb4':'light'},],
+  [{'G5':'normal'}, {'F5':'normal'}, {'G5':'normal'}, {'F5':'normal'}, {'Eb5':'normal'}, {'F5':'normal'}, {'G5':'normal'}, {'Eb5':'light'}, {'F5':'normal'}, {'Eb5':'normal'}, {'D5':'normal'}, {'Eb5':'normal'}, {'F5':'normal'}, {'G5':'normal'}, {'G#4':'normal'}, {'C5':'normal'}, {'B4':'normal'}/* Make equivalent Db4 */, {'C5':'normal'}, {'F5':'normal'}, {'F5':'normal'}/* Make equivalent E#5 */, {'G#5':'normal'}/* Make equivalent Ab5 */, {'G5':'normal'}, {'C#6':'normal'}, {'C6':'normal'}, {'G5':'normal'}, {'B5':'normal'}, {'A5':'normal'}, {'G5':'light'},],
+  [{'F5':'normal'}, {'G5':'normal'}, {'G5':'normal'}, {'D5':'normal'}, {'Eb5':'normal'}, {'C5':'normal'}, {'Bb4':'normal'}, {'D6':'normal'}, {'C6,':'normal'}, {'B5':'normal'}, {'A5':'normal'}, {'G5':'normal'}, {'A5':'normal'}, {'C5':'normal'}, {'D5':'normal'}, {'Eb5':'normal'}, {'Eb5':'normal'}, {'D5':'normal'}, {'Eb5':'normal'},],
+  [{'F5':'normal'}, {'G5':'normal'}, {'F5':'light'}, {'F5':'normal'}, {'C5':'normal'}, {'Eb5':'normal'}, {'Eb5':'normal'}, {'Eb5':'normal'}, {'Eb5':'normal'}, {'D5':'normal'}, {'Eb5':'normal'}, {'F5':'normal'}, {'Eb5':'normal'}, {'Eb5':'normal'}, {'Bb4':'normal'},],
 ]; 
 
 const notes = {
