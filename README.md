@@ -8,4 +8,4 @@ This application's design was inspired by Uncle Bob's ideas on "[Clean Architect
 
 ## App delivery
 
-For instructions on delivering the app through Express go [here](https://github.com/bitwhiz/musix/blob/get-song-api/delivery/express_app/README.md).
+For instructions on delivering the app through Express go [here](https://github.com/bitwhiz/musix/blob/get-song-api/delivery/express_app).
