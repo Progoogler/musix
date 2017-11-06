@@ -1,30 +1,11 @@
 # music-app
 
-> Smart music sheets for smart musicians. 
+> Smart music sheets for smart musicians.
 
-## Build Setup
+## Architecture
 
-``` bash
-# install dependencies
-npm install
+This application's design was inspired by Uncle Bob's ideas on "[Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)" and Retro Mocha's [example](https://github.com/RetroMocha/obvious_status). It's a different apparoach from the traditional MVC. The business logic and the data persistence are separated into separate folders. The app folder contains your business rules and entities, which would be the M in the MVC pattern. The external folder contains your data persistence layer - ORM's, API's, caching, queues. The delivery folder is where the VC in MVC would live. That is where you find express. Each delivery mechanism is responsible for integrating together app actions and jacks to make the system do things.
 
-# serve with hot reload at localhost:8080
-npm run dev
+## App delivery
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+For instructions on delivering the app through Express go [here](https://github.com/bitwhiz/musix/blob/get-song-api/delivery/express_app).
