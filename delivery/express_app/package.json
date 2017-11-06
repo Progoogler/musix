@@ -23,5 +23,9 @@
   },
   "devDependencies": {
     "morgan": "^1.9.0"
+  },
+  "engines": {
+    "node": "^6.11.5",
+    "npm": "^3.10.10"
   }
 }
